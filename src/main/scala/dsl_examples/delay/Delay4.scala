@@ -1,7 +1,8 @@
-package Delay
+package dsl_examples.delay
 
 import scalaz._
 
+/** Implement the scalaz monad typeclass. */
 trait Delay4Implementation {
   trait Delayed[+T] {
     def force: T
@@ -16,13 +17,16 @@ trait Delay4Implementation {
     implicit object DelayedMonad extends Monad[Delayed] {
       def point[T](t: => T): Delayed[T] = delay(t)
 
-      def bind[U, V](du: Delayed[U])(f: U => Delayed[V]): Delayed[V] = delay {
+      def bind[U, V](du: Delayed[U])(f: U => Delayed[V]) = delay {
         f(du.force).force
       }
     }
 
     implicit class toDelayOps[T](value: => T) {
       def delayed: Delayed[T] = delay(value)
+      def strict: Delayed[T] = new Delayed[T] {
+        def force: T = value
+      }
     }
   }
 }

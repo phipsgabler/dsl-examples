@@ -1,5 +1,6 @@
-package Delay
+package dsl_examples.delay
 
+/** Refactor construction, and introduce monadic interface. */
 trait Delay3Implementation {
   trait Delayed[+T] {
     import Delayed._
@@ -13,15 +14,14 @@ trait Delay3Implementation {
     def flatMap[U](f: T => Delayed[U]): Delayed[U] = delay {
       f(this.force).force
     }
+
+    def foreach(f: T => Unit): Unit = f(this.force)
   }
 
   object Delayed {
     def delay[T](delayed: => T) = new Delayed[T] {
       private[this] lazy val cached: T = delayed
       def force: T = cached
-    }
-    def pure[T](t: T) = new Delayed[T] {
-      override def force = t
     }
   }
 }
