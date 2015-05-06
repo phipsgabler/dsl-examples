@@ -2,8 +2,8 @@ package dsl_examples.delay
 
 import scalaz._
 
-/** Implement the scalaz monad typeclass. */
-trait Delay4Implementation {
+/** Implement the scalaz monad type class. */
+object delay4 {
   trait Delayed[+T] {
     def force: T
   }
@@ -31,12 +31,13 @@ trait Delay4Implementation {
   }
 }
 
-object Delay4 extends App with Delay4Implementation {
+object Delay4Test extends App {
+  import delay4._
   import Delayed._
 
   import Scalaz._
 
-  val first: Delayed[Int] = 1.delayed
+  val first = 1.delayed
   val second = delay {
     println("hello")
     2

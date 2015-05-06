@@ -1,5 +1,7 @@
 package dsl_examples.delay
 
+
+/** A remade implementation of scala.util.Try, using the same means as the "delay" pattern. */
 object `try` {
 
   sealed trait Try[+A] { self =>
