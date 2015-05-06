@@ -1,7 +1,7 @@
 package dsl_examples.delay
 
 /** Refactor construction, and introduce monadic interface. */
-trait Delay3Implementation {
+object delay3 {
   trait Delayed[+T] {
     import Delayed._
 
@@ -26,6 +26,6 @@ trait Delay3Implementation {
   }
 }
 
-object Delay3 extends App with Delay3Implementation {
-
+object Delay3Test extends App {
+  import delay3._
 }

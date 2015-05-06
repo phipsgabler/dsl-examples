@@ -1,7 +1,7 @@
 package dsl_examples.delay
 
 /** Using explicit mutability, like in scheme. */
-trait Delay1Implementation {
+object delay1 {
   class Delayed[+T](thunk: Unit => T) {
     private[this] var cached: Option[T] = None
 
@@ -16,7 +16,9 @@ trait Delay1Implementation {
   }
 }
 
-object Delay1 extends App with Delay1Implementation {
+object Delay1 extends App {
+  import delay1._
+
   val d1 = new Delayed((_unit) => {
     println("heavy computation")
     2

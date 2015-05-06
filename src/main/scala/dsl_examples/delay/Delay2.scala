@@ -1,8 +1,8 @@
 package dsl_examples.delay
 
 /** Using scala features to replace explicit mutability. */
-trait Delay2Implementation {
-  class Delayed[+T](thunk: () => T) {
+object delay2 {
+  class Delayed[+T] private (thunk: () => T) {
     private[this] lazy val cached: T = thunk()
 
     def force: T = cached
@@ -13,7 +13,8 @@ trait Delay2Implementation {
   }
 }
 
-object Delay2 extends App with Delay2Implementation {
+object Delay2Test extends {
+  import delay2._
   import Delayed._
 
   val d2 = delay {

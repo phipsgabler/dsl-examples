@@ -1,6 +1,6 @@
 package dsl_examples.delay
 
-trait TryImplementation {
+object `try` {
 
   sealed trait Try[+A] { self =>
     def map[B](f: A => B): Try[B] = self match {
@@ -35,7 +35,9 @@ trait TryImplementation {
   }
 }
 
-object Try extends TryImplementation {
+object TryTest extends App {
+  import `try`._
+
   Try("hello!") foreach println
   Try(throw new Exception) foreach (_ => println("you should not see this!"))
 }
