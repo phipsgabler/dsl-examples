@@ -1,7 +1,7 @@
 package dsl_examples.delay
 
 /** Using scala features to replace explicit mutability. */
-object delay2 {
+object Delay2 {
   class Delayed[+T] private (thunk: () => T) {
     private[this] lazy val cached: T = thunk()
 
@@ -14,11 +14,20 @@ object delay2 {
 }
 
 object Delay2Test extends {
-  import delay2._
+  import Delay2._
   import Delayed._
+
+  val d1 = delay {
+    println("doing something")
+    1
+  }
 
   val d2 = delay {
     println("heavy computation")
     2
+  }
+
+  val added = delay {
+    d1.force + d2.force
   }
 }

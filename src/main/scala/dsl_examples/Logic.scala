@@ -1,6 +1,6 @@
-package dsl_examples.patterns
+package dsl_examples
 
-object logic {
+object Logic {
   sealed trait Expr {
     def |(other: Expr) = Or(this, other)
     def &(other: Expr) = And(this, other)
@@ -23,7 +23,7 @@ object logic {
 }
 
 object LogicTest {
-  import logic._
+  import Logic._
 
   val e1: Expr = "a" | "b" & ~"c"
   assert(e1.eval(Map("a" -> true, "b" -> false, "c" -> true)) == Some(true))

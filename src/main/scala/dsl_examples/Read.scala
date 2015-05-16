@@ -1,8 +1,8 @@
-package dsl_examples.patterns
+package dsl_examples
 
 import scala.util.Try
 
-object read {
+object Read {
   trait Read[T] {
     def read(s: String): T
   }
@@ -43,7 +43,11 @@ object read {
 }
 
 object ReadTest extends App {
-  import read._
+  import Read._
 
   def readAll[T: Read](l: List[String]): List[T] = l map (_.readAs[T])
+
+  val x: Int = "1".readAs[Int]
+  val xs = "1,2,3".readAs[List[Int]]
+  val e = "x".readOption[Int]
 }

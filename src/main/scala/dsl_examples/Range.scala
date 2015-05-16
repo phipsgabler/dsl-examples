@@ -1,8 +1,8 @@
-package dsl_examples.patterns
+package dsl_examples
 
 import scala.annotation.tailrec
 
-object range {
+object Range {
   type Range = Vector[Int]
 
   @tailrec
@@ -26,5 +26,5 @@ object range {
 }
 
 object RangeTest extends App {
-  import range._
+  import Range._
 }

@@ -3,7 +3,7 @@ package dsl_examples.delay
 import scalaz._
 
 /** Implement the scalaz monad type class. */
-object delay4 {
+object Delay4 {
   trait Delayed[+T] {
     def force: T
   }
@@ -32,7 +32,7 @@ object delay4 {
 }
 
 object Delay4Test extends App {
-  import delay4._
+  import Delay4._
   import Delayed._
 
   import Scalaz._

@@ -1,13 +1,24 @@
-package dsl_examples.patterns
+package dsl_examples
 
-object imperative {
+object Imperative {
+  def repeat(n: Int)(block: => Any): Unit =
+    if (n > 0) {
+      block
+      repeat(n - 1)(block)
+    }
+
   def _while(condition: => Boolean)(body: => Unit): Unit = {
     if (condition) { body; _while(condition)(body) }
   }
 }
 
 object ImperativeTest extends App {
-  import imperative._
+  import Imperative._
+
+  repeat(5) {
+    println("hello!")
+  }
+
 
   var x = 10
   _while(x > 0) {
