@@ -32,3 +32,8 @@ you can import their module objects, like `import Logic._`.
 ## Recover ##
 
 ## Delay ##
+
+
+# License #
+
+This stuff is available under the MIT license. See LICENSE.txt for more info.
