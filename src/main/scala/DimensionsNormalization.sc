@@ -72,3 +72,29 @@ reorder(Second * Kilogram)
 reorder(Ampere * (Kilogram * Meter))
 reorder(Ampere * ((One / Kilogram) * (One / Second)))
 normalize(Ampere / (Kilogram * Second) * Mol)
+normalize(Meter * Meter / Ampere / Second * (Kilogram / (Second * Second)))
+invert(Ampere * Kilogram / Meter)
+normalize(invert(Ampere * Kilogram / Meter))
+
+class A
+class B
+class C
+
+trait F1[T] { type result }
+trait F2[T] { type result }
+
+implicit object f1OfA extends F1[A] { type result = B }
+implicit object f2OfB extends F2[B] { type result = C }
+
+trait Composed[T] { type result }
+
+implicit def composed1[X](implicit f2DotF1OfX: F2[F1[X]]): Composed[X] = new Composed[X] { type result = f2DotF1OfX.result }
+
+
+
+
+//implicit def composed2[X](implicit f1OfX: F1[X], f2OfLast: F2[f1OfX.result]): Composed[X] =
+//  new Composed[X] { type result = f2OfLast.result }
+
+implicit def composed3a[X](f1OfX: F1[X])(implicit f2OfLast: F2[f1OfX.result]): Composed[X] =
+  new Composed[X] { type result = f2OfLast.result }
