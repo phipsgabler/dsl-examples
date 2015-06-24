@@ -8,7 +8,8 @@ and a "test object" (inheriting from `App`), in which calls or constructions are
 shown to typecheck or to work.
 
 The "tests" should not be taken too seriously; they are only there to show how
-the defined features can be used, not to ensure any invariants.
+the defined features can be used, not to ensure any invariants. Sometimes there aren't
+even any.
 
 ## Usage ##
 

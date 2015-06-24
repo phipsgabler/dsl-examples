@@ -3,8 +3,11 @@ package dsl_examples
 object ChurchList {
   sealed trait ChurchList[+T] {
     def fold[K]: K => (T => K => K) => K
+
     def toList: List[T] = fold[List[T]](Nil)(x => xs => x::xs)
     def isEmpty: Boolean = this.fold(true)(_ => _ => false)
+    def ++[X >: T](xs: ChurchList[X]): ChurchList[X] = fold[ChurchList[X]](xs)(y => ys => Cons(y, ys))
+
     override def toString = s"ChurchList(${this.toList.mkString(",")})"
   }
 
@@ -33,15 +36,35 @@ object ChurchList {
         nil => plus => plus(x)(xs.fold(nil)(plus))
     }
 
-//    def unapply[T](l: ChurchList[T]): Option[(T, ChurchList[T])] = {
-//      l.fold[Option[(T, ChurchList[T])]](None)(h => acc => acc match {
-//        case Some((x, xs)) => Some((x, Cons(h, xs)))
-//        case None => Some((h, Empty))
-//      })
-//    }
+    def unapply[T](l: ChurchList[T]): Option[(T, ChurchList[T])] = {
+      l.fold[Option[(T, ChurchList[T])]](None)(h => {
+        case Some((x, xs)) => Some((h, Cons(x, xs)))
+        case None => Some((h, Empty))
+      })
+    }
   }
 }
 
 object ChurchListTest extends App {
-  import ChurchList._
+  import ChurchList.{ChurchList => CL, _}
+
+  CL(1,2,3) match {
+    case Cons(x, xs) => {
+      assert(x == 1, "head")
+      assert(xs.toList == List(2, 3), "tail")
+      println("success 1")
+    }
+  }
+
+  // if you try this:
+  //   CL(1,2,3,4) match { case Cons(x1, Cons(x2, rest)) => (x1, x2, rest) }
+  // in the REPL, it will crash the compiler: bug?
+  CL(1,2,3,4) match {
+    case Cons(x1, Cons(x2, rest)) => {
+      assert(x1 == 1, "car")
+      assert(x2 == 2, "cadr")
+      assert(rest.toList == List(3, 4), "cddr")
+      println("success 2")
+    }
+  }
 }
