@@ -20,6 +20,7 @@ object Range {
       exclusiveRange(start + 1, end, acc :+ start)
 
   implicit class IntRangeOps(self: Int) {
+    // naming these with underlines, to prevent conflicts with the standard library version
     def to_(bound: Int): Range = inclusiveRange(self, bound)
     def until_(bound: Int): Range =  exclusiveRange(self, bound)
   }

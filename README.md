@@ -30,7 +30,7 @@ universal constructor `ChurchList`, which all can be pattern matched on.
 
 ## Imperative ##
 
-Methods `repeat` and `while`, to illustrate how blocks and by-name arguments can be used to construct functions
+Methods `repeat` and `_while`, to illustrate how blocks and by-name arguments can be used to construct functions
 which look and behave like imperative language statements.
 
 ## Logic ##
@@ -45,7 +45,7 @@ syntax of Scala.
 
 ## Range ##
 
-A wrapper for int, reimplementing the syntax from
+A wrapper for `Int`, reimplementing the syntax from
 [`scala.collection.immutable.Range`](http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range).
 
 ## Read ##
