@@ -4,7 +4,7 @@ import scalaz._
 
 /** Implement the scalaz monad type class. */
 object Delay4 {
-  trait Delayed[+T] {
+  sealed trait Delayed[+T] {
     def force: T
   }
 

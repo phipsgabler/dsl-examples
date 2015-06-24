@@ -19,20 +19,60 @@ you can import their module objects, like `import Logic._`.
 
 # Description of Individual Examples #
 
+## ChurchList ##
+
+An implementation of [church encoded](https://en.wikipedia.org/wiki/Church_encoding) lists, illustrating the hiding
+of an internal implementation through an interface by `apply`/`unapply` in the companion object.
+
+The interface is intended to look like the one of `List`: there are members `Empty` and `Cons`, as well as the
+universal constructor `ChurchList`, which all can be pattern matched on.
+
 ## Imperative ##
+
+Methods `repeat` and `while`, to illustrate how blocks and by-name arguments can be used to construct functions
+which look and behave like imperative language statements.
 
 ## Logic ##
 
+A small AST for predicate logic expressions, including an implementation function. Illustrates the use of operators and
+extractors.
+
 ## MutableDict ##
+
+A mutable dictionary implementation based on a purely functional internal implementation, illustrating the getter/setter
+syntax of Scala.
 
 ## Range ##
 
+A wrapper for int, reimplementing the syntax from
+[`scala.collection.immutable.Range`](http://www.scala-lang.org/api/current/index.html#scala.collection.immutable.Range).
+
 ## Read ##
+
+A simple example of a type class (inspired by Haskell's
+[`Read`](http://hackage.haskell.org/package/base-4.8.0.0/docs/Prelude.html#t:Read)), providing the functionality of
+reading a value of a type from a string.
 
 ## Recover ##
 
+A reimplementation of [`scala.util.Try`](http://www.scala-lang.org/api/current/index.html#scala.util.Try), illustrating
+a usage of by-name parameters.
+
+## SExpParser ##
+
+A small parser for [S-expressions](https://en.wikipedia.org/wiki/S-expression) (LISP syntax), using Scala's
+parser combinators.
+
 ## Delay ##
 
+Multiple versions of delay objects (similar to [futures](https://en.wikipedia.org/wiki/Futures_and_promises), but not
+actually using multi-threading).
+
+- `Delay1` uses a mutable variable and hides its internal state.
+- `Delay2` does in principle the same, but uses the Scala constructs for by-name arguments and lazy values.
+- `Delay3` factors out the interface into a trait, and provides a monadic interface.
+- `Delay4` is very similar to `Delay3`, but implements the monad type class from
+  [`Scalaz`](https://github.com/scalaz/scalaz).
 
 # License #
 

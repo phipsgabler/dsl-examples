@@ -2,7 +2,7 @@ package dsl_examples.delay
 
 /** Refactor construction, and introduce monadic interface. */
 object Delay3 {
-  trait Delayed[+T] {
+  sealed trait Delayed[+T] {
     import Delayed._
 
     def force: T
