@@ -17,7 +17,7 @@ object ChurchList {
       case x::xs => new ChurchList[T] {
         val rest = ChurchList[T](xs: _*)
         def fold[K]: K => (T => K => K) => K =
-          nil => plus => plus(x)(rest.fold(nil)(plus))
+          nil => cons => cons(x)(rest.fold(nil)(cons))
       }
     }
 
@@ -33,7 +33,7 @@ object ChurchList {
   object Cons {
     def apply[T](x: T, xs: ChurchList[T]) = new ChurchList[T] {
       def fold[K]: K => (T => K => K) => K =
-        nil => plus => plus(x)(xs.fold(nil)(plus))
+        nil => cons => cons(x)(xs.fold(nil)(cons))
     }
 
     def unapply[T](l: ChurchList[T]): Option[(T, ChurchList[T])] = {
