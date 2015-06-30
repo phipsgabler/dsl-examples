@@ -64,7 +64,7 @@ a usage of by-name parameters.
 A small parser for [S-expressions](https://en.wikipedia.org/wiki/S-expression) (LISP syntax), using Scala's
 parser combinators.
 
-## [Delay](src/main/scala/dsl_examples/Delay) ##
+## [Delay](src/main/scala/dsl_examples/delay) ##
 
 Multiple versions of delay objects (similar to [futures](https://en.wikipedia.org/wiki/Futures_and_promises), but not
 actually using multi-threading).
