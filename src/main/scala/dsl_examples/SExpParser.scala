@@ -40,16 +40,18 @@ object SExpParser {
   object SExpParser extends RegexParsers {
     override val skipWhitespace = false
 
+    def sexpr: Parser[SExpr] = whiteSpace.? ~> (readMacro | cons | atom)
+
+    def readMacro: Parser[SExpr] = (readMacroIdentifier ~ sexpr) <~ whiteSpace.? ^^ {
+      case s~e => ReadMacro(s, e)
+    }
+    def cons: Parser[SExpr] =  parenthesized(rep(sexpr) ^^ ConsList) <~ whiteSpace.?
+    def atom: Parser[SExpr] = (identifier ^^ Atom) <~ whiteSpace.?
+
     def parenthesized[T](p: Parser[T]) = "(" ~ whiteSpace.? ~> p <~ whiteSpace.? ~ ")"
     def identifier: Parser[String] = "[^()' ]+".r
     def readMacroIdentifier: Parser[String] = Quote.macroCharacter
 
-    def atom: Parser[SExpr] = (identifier ^^ Atom) <~ whiteSpace.?
-    def cons: Parser[SExpr] =  parenthesized(rep(sexpr) ^^ ConsList) <~ whiteSpace.?
-    def readMacro: Parser[SExpr] = (readMacroIdentifier ~ sexpr) <~ whiteSpace.? ^^ {
-      case s~e => ReadMacro(s, e)
-    }
-    def sexpr: Parser[SExpr] = whiteSpace.? ~> (readMacro | cons | atom)
 
     def apply(input : String) : Either[String, SExpr] = {
       parseAll(sexpr, input) match {

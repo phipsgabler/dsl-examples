@@ -35,6 +35,8 @@ object Units extends Normalizations {
 
     def /[E <: Dimension](other: Value[E])(implicit normalized: Normalized[D / E]): Value[normalized.result] =
       new Value(value / other.value)
+
+
   }
 
   implicit class dimensionSymbols(d: Double) {
@@ -114,42 +116,42 @@ trait Normalizations {
     new Inverted[D / E] { type result = E / D }
 //
 //
-//  // type-level simplification of dimensions
-//  abstract class Simplified[D <: Dimension] {
-//    type result <: Dimension
-//  }
-//
-//  implicit def simpleSimplified[D <: Dimension](implicit dIsSimple: Simple[D]): Simplified[D] =
-//    new Simplified[D] { type result = D }
-//  implicit def oneMultDSimplified[D <: Dimension]: Simplified[One * D] =
-//    new Simplified[One * D] { type result = D }
-//  implicit def simpleMultSimpleSimplified[D <: Dimension, E <: Dimension]
-//  (implicit dIsSimple: Simple[D], eIsSimple: Simple[E]): Simplified[D * E] =
-//    new Simplified[D * E] { type result = D * E }
-//  implicit def simpleMultComplexSimplified[D <: Dimension, E <: Dimension]
-//  (implicit dIsSimple: Simple[D], eSimplified: Simplified[E]): Simplified[D * E] =
-//    new Simplified[D * E] { type result = D * eSimplified.result }
-//
-//  implicit def aDivOneSimplified[D <: Dimension](implicit dSimplified: Simplified[D]): Simplified[D / One] =
-//    new Simplified[D / One] { type result = dSimplified.result }
-//  implicit def oneDivOneDivDSimplified[D <: Dimension](implicit dSimplified: Simplified[D]): Simplified[One / (One / D)] =
-//    new Simplified[One / (One / D)] { type result = dSimplified.result }
-//  implicit def simpleDivSimpleSimplified[D <: Dimension, E <: Dimension]
-//  (implicit dIsSimple: Simple[D], eIsSimple: Simple[E]): Simplified[D / E] =
-//    new Simplified[D / E] { type result = D / E }
-////  implicit def simpleDivComplexSimplified[D <: Dimension, E <: Dimension](implicit dIsSimple: Simple[D], eInverted: Inverted[E], invertedSimplified: Simplified[eInverted.result]): Simplified[D * E] =
-////    new Simplified[D * E] { type result = D * invertedSimplified.result }
-//  implicit def simpleDivComplexSimplified[D <: Dimension, E <: Dimension, InvertedE <: Dimension](implicit dIsSimple: Simple[D], eInverted: Inverted[E] { type result = InvertedE }, eSimplifiedInverted: Simplified[InvertedE]): Simplified[D * E] =
-//    new Simplified[D * E] { type result = D * eSimplifiedInverted.result }
-//
-//  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension](implicit simplified: Simplified[*[A, *[B, C]]]): Simplified[*[*[A, B], C]] =
-//    new Simplified[*[*[A, B], C]] { type result = simplified.result }
-//  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedB <: Dimension](implicit invertedB: Inverted[B] { type result = InvertedB }, simplified: Simplified[*[A, *[InvertedB, C]]]): Simplified[*[/[A, B], C]] =
-//    new Simplified[*[/[A, B], C]] { type result = simplified.result }
-//  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedB <: Dimension, InvertedC <: Dimension](implicit invertedB: Inverted[B] { type result = InvertedB }, invertedC: Inverted[C] { type result = InvertedC }, simplified: Simplified[*[A, *[InvertedB, InvertedC]]]): Simplified[/[/[A, B], C]] =
-//    new Simplified[/[/[A, B], C]] { type result = simplified.result }
-//  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedC <: Dimension](implicit invertedC: Inverted[C] { type result = InvertedC }, simplified: Simplified[*[A, *[B, InvertedC]]]): Simplified[/[*[A, B], C]] =
-//    new Simplified[/[*[A, B], C]] { type result = simplified.result }
+  // type-level simplification of dimensions
+  abstract class Simplified[D <: Dimension] {
+    type result <: Dimension
+  }
+
+  implicit def simpleSimplified[D <: Dimension](implicit dIsSimple: Simple[D]): Simplified[D] =
+    new Simplified[D] { type result = D }
+  implicit def oneMultDSimplified[D <: Dimension]: Simplified[One * D] =
+    new Simplified[One * D] { type result = D }
+  implicit def simpleMultSimpleSimplified[D <: Dimension, E <: Dimension]
+  (implicit dIsSimple: Simple[D], eIsSimple: Simple[E]): Simplified[D * E] =
+    new Simplified[D * E] { type result = D * E }
+  implicit def simpleMultComplexSimplified[D <: Dimension, E <: Dimension]
+  (implicit dIsSimple: Simple[D], eSimplified: Simplified[E]): Simplified[D * E] =
+    new Simplified[D * E] { type result = D * eSimplified.result }
+
+  implicit def aDivOneSimplified[D <: Dimension](implicit dSimplified: Simplified[D]): Simplified[D / One] =
+    new Simplified[D / One] { type result = dSimplified.result }
+  implicit def oneDivOneDivDSimplified[D <: Dimension](implicit dSimplified: Simplified[D]): Simplified[One / (One / D)] =
+    new Simplified[One / (One / D)] { type result = dSimplified.result }
+  implicit def simpleDivSimpleSimplified[D <: Dimension, E <: Dimension]
+  (implicit dIsSimple: Simple[D], eIsSimple: Simple[E]): Simplified[D / E] =
+    new Simplified[D / E] { type result = D / E }
+//  implicit def simpleDivComplexSimplified[D <: Dimension, E <: Dimension](implicit dIsSimple: Simple[D], eInverted: Inverted[E], invertedSimplified: Simplified[eInverted.result]): Simplified[D * E] =
+//    new Simplified[D * E] { type result = D * invertedSimplified.result }
+  implicit def simpleDivComplexSimplified[D <: Dimension, E <: Dimension, InvertedE <: Dimension](implicit dIsSimple: Simple[D], eInverted: Inverted[E] { type result = InvertedE }, eSimplifiedInverted: Simplified[InvertedE]): Simplified[D * E] =
+    new Simplified[D * E] { type result = D * eSimplifiedInverted.result }
+
+  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension](implicit simplified: Simplified[*[A, *[B, C]]]): Simplified[*[*[A, B], C]] =
+    new Simplified[*[*[A, B], C]] { type result = simplified.result }
+  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedB <: Dimension](implicit invertedB: Inverted[B] { type result = InvertedB }, simplified: Simplified[*[A, *[InvertedB, C]]]): Simplified[*[/[A, B], C]] =
+    new Simplified[*[/[A, B], C]] { type result = simplified.result }
+  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedB <: Dimension, InvertedC <: Dimension](implicit invertedB: Inverted[B] { type result = InvertedB }, invertedC: Inverted[C] { type result = InvertedC }, simplified: Simplified[*[A, *[InvertedB, InvertedC]]]): Simplified[/[/[A, B], C]] =
+    new Simplified[/[/[A, B], C]] { type result = simplified.result }
+  implicit def aMultBMultC[A <: Dimension, B <: Dimension, C <: Dimension, InvertedC <: Dimension](implicit invertedC: Inverted[C] { type result = InvertedC }, simplified: Simplified[*[A, *[B, InvertedC]]]): Simplified[/[*[A, B], C]] =
+    new Simplified[/[*[A, B], C]] { type result = simplified.result }
 //
 //
 //  // type-level sorting of already simplified dimensions
@@ -180,6 +182,8 @@ trait Normalizations {
 //  implicit def normalized[D <: Dimension, SimplifiedD <: Dimension](implicit simplified: Simplified[D] { type result = SimplifiedD }, reorderedSimplified: Reordered[SimplifiedD]): Normalized[D] =
 //    new Normalized[D] { type result = reorderedSimplified.result }
 }
+
+object Normalizations extends Normalizations
 
 
 
