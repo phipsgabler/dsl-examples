@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 # DSL-Examples #
 
 Here I implement various showcases of Scala features, mostly related to DSLs, to
